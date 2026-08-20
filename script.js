@@ -65,3 +65,6 @@ const observer = new IntersectionObserver(entries=>{
 },{threshold:.12});
 
 document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+document.getElementById('surpriseBtn').addEventListener('click', () => {
+    document.getElementById('birthdayMusic').play();
+});
