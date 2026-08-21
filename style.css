@@ -172,33 +172,64 @@ footer{text-align:center;padding:22px;font-size:11px;letter-spacing:.08em;color:
   .finale h2{font-size:43px}
   .lavender{font-size:44px;bottom:7%}
 }
-.tap-effect {
+/* =========================================
+   CURSOR + MOBILE TAP EFFECTS
+   ========================================= */
+
+.cursor-sparkle {
   position: fixed;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 99999;
+  transform: translate(-50%, -50%) scale(1);
   color: #9b69c8;
-  font-size: 22px;
-  transform: translate(-50%, -50%);
-  animation: tapFloat 1s ease-out forwards;
-  text-shadow: 0 0 10px rgba(155, 105, 200, 0.6);
+  text-shadow: 0 0 10px rgba(155, 105, 200, 0.8);
+  animation: cursorFade 0.7s ease-out forwards;
 }
 
-@keyframes tapFloat {
+@keyframes cursorFade {
   0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
   }
 
-  30% {
+  25% {
     opacity: 1;
-    transform: translate(-50%, -70%) scale(1.15);
+    transform: translate(-50%, -50%) scale(1);
   }
 
   100% {
     opacity: 0;
-    transform: translate(
-      calc(-50% + var(--drift, 0px)),
-      calc(-50% - 65px)
-    ) scale(0.8);
+    transform: translate(-50%, -65%) scale(0.7);
+  }
+}
+
+.tap-burst {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  color: #9b69c8;
+  font-size: 18px;
+  text-shadow: 0 0 10px rgba(155, 105, 200, 0.8);
+
+  transform: translate(-50%, -50%);
+  animation: tapBurst 0.9s ease-out forwards;
+}
+
+@keyframes tapBurst {
+  0% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(0.4);
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate(
+        calc(-50% + var(--x)),
+        calc(-50% + var(--y))
+      )
+      scale(1.2);
   }
 }
