@@ -69,22 +69,74 @@ document.getElementById('surpriseBtn').addEventListener('click', () => {
     document.getElementById('birthdayMusic').play();
 });
 
-// 💜 Mobile tap / desktop click effect
+// 💜 Cursor + Mobile Tap Effects
+
+// Desktop cursor sparkle
+let lastSparkle = 0;
+
+document.addEventListener("pointermove", function (event) {
+  // Only create the trail occasionally so it doesn't create hundreds of elements
+  const now = Date.now();
+
+  if (now - lastSparkle < 45) return;
+  lastSparkle = now;
+
+  // Don't create a cursor trail while touching a phone
+  if (event.pointerType === "touch") return;
+
+  createMagicEffect(
+    event.clientX,
+    event.clientY,
+    ["✦", "✧", "♡"][Math.floor(Math.random() * 3)],
+    14 + Math.random() * 8
+  );
+});
+
+// Mobile tap + desktop click
 document.addEventListener("pointerdown", function (event) {
-  const sparkle = document.createElement("span");
+  createMagicBurst(event.clientX, event.clientY);
+});
 
-  const symbols = ["♡", "♥", "✦", "✧", "💜"];
-  sparkle.textContent =
-    symbols[Math.floor(Math.random() * symbols.length)];
+function createMagicEffect(x, y, symbol, size) {
+  const effect = document.createElement("span");
 
-  sparkle.className = "tap-effect";
+  effect.className = "cursor-sparkle";
+  effect.textContent = symbol;
 
-  sparkle.style.left = event.clientX + "px";
-  sparkle.style.top = event.clientY + "px";
+  effect.style.left = x + "px";
+  effect.style.top = y + "px";
+  effect.style.fontSize = size + "px";
 
-  document.body.appendChild(sparkle);
+  document.body.appendChild(effect);
 
   setTimeout(() => {
-    sparkle.remove();
-  }, 1000);
-});
+    effect.remove();
+  }, 700);
+}
+
+function createMagicBurst(x, y) {
+  const symbols = ["♡", "♥", "✦", "✧", "💜"];
+
+  for (let i = 0; i < 7; i++) {
+    const effect = document.createElement("span");
+
+    effect.className = "tap-burst";
+    effect.textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
+
+    effect.style.left = x + "px";
+    effect.style.top = y + "px";
+
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 35 + Math.random() * 55;
+
+    effect.style.setProperty("--x", Math.cos(angle) * distance + "px");
+    effect.style.setProperty("--y", Math.sin(angle) * distance + "px");
+
+    document.body.appendChild(effect);
+
+    setTimeout(() => {
+      effect.remove();
+    }, 900);
+  }
+}
