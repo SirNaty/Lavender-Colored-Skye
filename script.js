@@ -68,3 +68,23 @@ document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 document.getElementById('surpriseBtn').addEventListener('click', () => {
     document.getElementById('birthdayMusic').play();
 });
+
+// 💜 Mobile tap / desktop click effect
+document.addEventListener("pointerdown", function (event) {
+  const sparkle = document.createElement("span");
+
+  const symbols = ["♡", "♥", "✦", "✧", "💜"];
+  sparkle.textContent =
+    symbols[Math.floor(Math.random() * symbols.length)];
+
+  sparkle.className = "tap-effect";
+
+  sparkle.style.left = event.clientX + "px";
+  sparkle.style.top = event.clientY + "px";
+
+  document.body.appendChild(sparkle);
+
+  setTimeout(() => {
+    sparkle.remove();
+  }, 1000);
+});
